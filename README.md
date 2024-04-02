@@ -8,6 +8,7 @@ This is a simple ToDo List application built with .NET Core and Angular.
 - Visual Studio 2022
 - Node.js 18.13
 - Angular 18
+- ASP.NET and Web Development workload
 - Node.js (for Angular development)
 - PrimeNG (set up documentation here:https://primeng.org/installation )
 
