@@ -13,8 +13,13 @@ namespace ToDoList.Server.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ToDoItemModel>> Get()
         {
+            if (_todoList == null)
+            {
+                _todoList = new List<ToDoItemModel>();
+            }
             return Ok(_todoList);
         }
+
 
         [HttpPost]
         public IActionResult Post([FromBody] ToDoCreationModel toDoCreationModel)
@@ -79,7 +84,71 @@ namespace ToDoList.Server.Controllers
             todo.SubTodos.Remove(subTodo);
             return NoContent();
         }
+        [HttpPut("{id}")]
+        public IActionResult UpdateTodo(int id, [FromBody] ToDoItemModel updatedTodo)
+        {
+            var todo = _todoList.FirstOrDefault(x => x.Id == id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+            todo.Task = updatedTodo.Task;
+            todo.Deadline = updatedTodo.Deadline;
+            todo.MoreDetails = updatedTodo.MoreDetails;
+            return NoContent();
+        }
 
+        [HttpPut("{parentId}/subtodos/{subTodoId}")]
+        public IActionResult UpdateSubTodo(int parentId, int subTodoId, [FromBody] SubToDoModel updatedSubTodo)
+        {
+            var todo = _todoList.FirstOrDefault(t => t.Id == parentId);
+            if (todo == null)
+            {
+                return NotFound("Parent TODO not found");
+            }
+
+            var subTodo = todo.SubTodos.FirstOrDefault(st => st.Id == subTodoId);
+            if (subTodo == null)
+            {
+                return NotFound("Sub TODO not found");
+            }
+
+            subTodo.Task = updatedSubTodo.Task;
+            subTodo.Deadline = updatedSubTodo.Deadline;
+            subTodo.MoreDetails = updatedSubTodo.MoreDetails;
+            return NoContent();
+        }
+
+        [HttpPut("{id}/updateMoreDetails")]
+        public IActionResult UpdateTodoMoreDetails(int id, [FromBody] string moreDetails)
+        {
+            var todo = _todoList.FirstOrDefault(x => x.Id == id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+            todo.MoreDetails = moreDetails;
+            return NoContent();
+        }
+
+        [HttpPut("{todoId}/subtodos/{subTodoId}/updateSubTodoDetails")]
+        public IActionResult UpdateSubTodoDetails(int todoId, int subTodoId, [FromBody] string moreDetails)
+        {
+            var todo = _todoList.FirstOrDefault(t => t.Id == todoId);
+            if (todo == null)
+            {
+                return NotFound("Parent TODO not found");
+            }
+
+            var subTodo = todo.SubTodos.FirstOrDefault(st => st.Id == subTodoId);
+            if (subTodo == null)
+            {
+                return NotFound("Sub TODO not found");
+            }
+
+            subTodo.MoreDetails = moreDetails;
+            return NoContent();
+        }
 
         [HttpPut("{id}/complete")]
         public IActionResult MarkAsCompleted(int id)

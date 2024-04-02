@@ -28,15 +28,16 @@ export class TodoService {
     return this.http.put<void>(`https://localhost:7078/api/todolist/${todo.id}`, todo);
   }
 
-  updateSubTodo(subTodo: SubTodoModel): Observable<void> {
-    return this.http.put<void>(`https://localhost:7078/api/subtodos/${subTodo.id}`, subTodo);
-  }
-  updateMoreDetails(todoId: number, moreDetails: string): Observable<void> {
-    return this.http.put<void>(`https://localhost:7078/api/todolist/${todoId}/moredetails`, { moreDetails });
+  updateSubTodo(parentId: number, subTodo: SubTodoModel): Observable<void> {
+    return this.http.put<void>(`https://localhost:7078/api/subtodos/${parentId}/subtodos/{subTodoId}`, subTodo);
   }
 
-  updateSubTodoDetails(subTodoId: number, moreDetails: string): Observable<void> {
-    return this.http.put<void>(`https://localhost:7078/api/subtodos/${subTodoId}/moredetails`, { moreDetails });
+  updateMoreDetails(todoId: number, moreDetails: string): Observable<void> {
+    return this.http.put<void>(`https://localhost:7078/api/todolist/${todoId}/updateMoreDetails`, { moreDetails });
+  }
+
+  updateSubTodoDetails(todoId: number, subTodoId: number, moreDetails: string): Observable<void> {
+    return this.http.put<void>(`https://localhost:7078/api/subtodos/${todoId}/subtodos/${subTodoId}/updateSubTodoDetails`, { moreDetails });
   }
 
   deleteTodo(id: number): Observable<void> {

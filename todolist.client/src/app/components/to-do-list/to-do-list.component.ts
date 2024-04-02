@@ -15,6 +15,7 @@ export class ToDoListComponent implements OnInit{
   public todoList: Todo[] = [];
   public newTodo: TodoCreationModel = new TodoCreationModel();
   public subTodo: SubTodoModel = new SubTodoModel();
+  public currentDate: Date = new Date();
   constructor(private todoService: TodoService) { }
 
   ngOnInit() {
@@ -61,35 +62,38 @@ export class ToDoListComponent implements OnInit{
     todo.subTodos.push(this.subTodo);
   }
   isOverdue(deadline: Date): boolean {
-    const currentDate = new Date();
-    return deadline > currentDate;
+    return new Date(deadline) < this.currentDate;
   }
 
   updateTodo(todo: Todo) {
     this.todoService.updateTodo(todo).subscribe(() => {
       // Optional: You can refresh the todo list if needed
-      // this.fetchTodoList();
+      this.fetchTodoList();
     });
   }
 
-  updateSubTodo(subTodo: SubTodoModel) {
-    this.todoService.updateSubTodo(subTodo).subscribe(() => {
+  updateSubTodo(parentId: number, subTodo: SubTodoModel) {
+    this.todoService.updateSubTodo(parentId, subTodo).subscribe(() => {
       // Optional: You can refresh the todo list if needed
-      // this.fetchTodoList();
+      this.fetchTodoList();
     });
   }
-  updateMoreDetails(todo: Todo) {
-    this.todoService.updateMoreDetails(todo.id, todo.moreDetails).subscribe(() => {
+
+  updateMoreDetails(todo: Todo, moreDetails: string) {
+    this.todoService.updateMoreDetails(todo.id, moreDetails).subscribe(() => {
       // Optional: You can perform additional actions after updating the details, such as refreshing the todo list
       this.fetchTodoList();
     });
   }
-  updateSubTodoDetails(subTodo: SubTodoModel) {
-    this.todoService.updateSubTodoDetails(subTodo.id, subTodo.moreDetails).subscribe(() => {
+
+
+  updateSubTodoDetails(todoId: number, subTodoId: number, moreDetails: string) {
+    this.todoService.updateSubTodoDetails(todoId, subTodoId, moreDetails).subscribe(() => {
       // Optional: You can perform additional actions after updating the subtodo details, such as refreshing the todo list
       this.fetchTodoList();
     });
   }
+
 
   toggleDetails(todo: Todo) {
     todo.showDetails = !todo.showDetails;
