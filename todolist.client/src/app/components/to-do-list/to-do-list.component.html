@@ -1,37 +1,49 @@
-<h1>ToDo List</h1>
-
 <div class="todo-container">
-  <ul>
-    <li *ngFor="let todo of todoList" [class.completed]="todo.isCompleted" class="todo-item">
-      <input type="checkbox" [(ngModel)]="todo.isCompleted" (change)="markAsCompleted(todo.id)">
-      <input type="text" [(ngModel)]="todo.task" (blur)="updateTodo(todo)">
-      <button (click)="toggleDetails(todo)">Details</button>
-      <!-- Display moreDetails when showDetails is true -->
-      <div *ngIf="todo.showDetails">
-        <p>{{ todo.moreDetails }}</p>
-      </div>
-      <button (click)="deleteTodo(todo.id)">Delete</button>
+    <ul>
+      <li *ngFor="let todo of todoList" [class.completed]="todo.isCompleted" class="todo-item" [class.overdue]="isOverdue(todo.deadline)">
+        <p-inputGroupAddon>
+          <p-checkbox [(ngModel)]="todo.isCompleted" (change)="markAsCompleted(todo.id)" [disabled]="todo.isCompleted"></p-checkbox>
+        </p-inputGroupAddon>
+        <input type="text" [(ngModel)]="todo.task" (blur)="updateTodo(todo)">
+        <input type="text" [(ngModel)]="todo.deadline">
+        <button (click)="toggleDetails(todo)">Details</button>
+        <!-- Display moreDetails when showDetails is true -->
+        <div *ngIf="todo.showDetails">
+          <input type="text" [(ngModel)]="todo.moreDetails" placeholder="Enter more details" (blur)="updateMoreDetails(todo)" [disabled]="todo.isCompleted">
+        </div>
+        <button (click)="deleteTodo(todo.id)">Delete</button>
 
-      <!-- Add button to add sub TODO -->
-      <button (click)="newSubTodo(todo)">Add Sub TODO</button>
-      <div class="sub-todo-container">
-        <!-- Display sub TODOs -->
+        <!-- Add Sub TODO Button -->
+        <button *ngIf="!todo.isCompleted && !todo.showAddSubTodo" (click)="toggleAddSubTodo(todo)">Add Sub TODO</button>
+
+        <!-- Sub TODO Input and Button -->
+        <div *ngIf="todo.showAddSubTodo">
+          <input type="text" [(ngModel)]="subTodo.task" placeholder="Enter sub task">
+          <input type="text" [(ngModel)]="subTodo.moreDetails" placeholder="Enter more details">
+          <button (click)="addSubTodo(todo)">Add Sub TODO</button>
+          <button *ngIf="subTodo.id != 0" (click)="deleteSubTodo(todo, subTodo)">Delete</button>
+        </div>
+
+        <!-- Sub TODOs List -->
         <ul *ngIf="todo.subTodos && todo.subTodos.length">
           <li *ngFor="let subTodo of todo.subTodos">
-            <input type="checkbox" [(ngModel)]="subTodo.isCompleted" (change)="markSubTodoAsCompleted(subTodo)">
+            <!-- Sub Todo Item Content -->
+            <input type="checkbox" [(ngModel)]="subTodo.isCompleted" (change)="markSubTodoAsCompleted(todo.id, subTodo.id)" [disabled]="todo.isCompleted">
             <input type="text" [(ngModel)]="subTodo.task" (blur)="updateSubTodo(subTodo)">
-            <input type="text" [(ngModel)]="subTodo.moreDetails" placeholder="Enter more details" (blur)="updateSubTodo(subTodo)">
-            <button (click)="addSubTodo(todo)">Add Sub TODO</button>
-            <button *ngIf="subTodo.id != 0"(click)="deleteSubTodo(todo, subTodo)">Delete</button>
+            <button (click)="toggleSubTodoDetails(subTodo)">Details</button>
+            <!-- Display moreDetails when showDetails is true -->
+            <div *ngIf="subTodo.showDetails">
+              <input type="text" [(ngModel)]="subTodo.moreDetails" placeholder="Enter more details" (blur)="updateSubTodoDetails(subTodo)" [disabled]="subTodo.isCompleted">
+            </div>
+            <button (click)="deleteSubTodo(todo, subTodo)">Delete</button>
           </li>
         </ul>
-      </div>
-    </li>
-  </ul>
-
-  <div>
-    <input type="text" [(ngModel)]="newTodo.task" placeholder="Enter new task">
-    <input type="text" [(ngModel)]="newTodo.moreDetails" placeholder="Enter more details">
-    <button (click)="addTodo()">Add</button>
+      </li>
+    </ul>
   </div>
+<div>
+  <input type="text" [(ngModel)]="newTodo.task" placeholder="Enter new task">
+  <input type="text" [(ngModel)]="newTodo.moreDetails" placeholder="Enter more details">
+  <p-calendar [(ngModel)]="newTodo.deadline" class="ng-invalid ng-dirty"></p-calendar>
+  <button (click)="addTodo()">Add</button>
 </div>

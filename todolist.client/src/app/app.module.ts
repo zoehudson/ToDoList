@@ -10,6 +10,9 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
+import { CalendarModule } from 'primeng/calendar';
+import { AccordionModule } from 'primeng/accordion';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -26,7 +29,10 @@ import { FormsModule } from '@angular/forms';
     InputGroupModule,
     InputGroupAddonModule,
     InputTextModule,
-    MenuModule
+    MenuModule,
+    CalendarModule,
+    BrowserAnimationsModule,
+    AccordionModule
 
   ],
   providers: [],

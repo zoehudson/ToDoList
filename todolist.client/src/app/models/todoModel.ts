@@ -6,6 +6,7 @@ export interface Todo {
   deadline: Date;
   isCompleted: boolean;
   subTodos: SubTodoModel[];
-  moreDetails?: string;
+  moreDetails: string;
   showDetails?: boolean;
+  showAddSubTodo?: boolean;
 }

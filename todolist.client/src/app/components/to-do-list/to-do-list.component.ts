@@ -35,6 +35,7 @@ export class ToDoListComponent implements OnInit{
       this.fetchTodoList();
       this.newTodo.task = ''; // Reset task input
       this.newTodo.moreDetails = '';
+      this.newTodo.deadline = new Date();
     });
   }
 
@@ -59,6 +60,10 @@ export class ToDoListComponent implements OnInit{
     this.newTodo.moreDetails = '';
     todo.subTodos.push(this.subTodo);
   }
+  isOverdue(deadline: Date): boolean {
+    const currentDate = new Date();
+    return deadline > currentDate;
+  }
 
   updateTodo(todo: Todo) {
     this.todoService.updateTodo(todo).subscribe(() => {
@@ -73,10 +78,29 @@ export class ToDoListComponent implements OnInit{
       // this.fetchTodoList();
     });
   }
+  updateMoreDetails(todo: Todo) {
+    this.todoService.updateMoreDetails(todo.id, todo.moreDetails).subscribe(() => {
+      // Optional: You can perform additional actions after updating the details, such as refreshing the todo list
+      this.fetchTodoList();
+    });
+  }
+  updateSubTodoDetails(subTodo: SubTodoModel) {
+    this.todoService.updateSubTodoDetails(subTodo.id, subTodo.moreDetails).subscribe(() => {
+      // Optional: You can perform additional actions after updating the subtodo details, such as refreshing the todo list
+      this.fetchTodoList();
+    });
+  }
+
   toggleDetails(todo: Todo) {
     todo.showDetails = !todo.showDetails;
   }
-
+  
+  toggleSubTodoDetails(subTodo: SubTodoModel) {
+    subTodo.showDetails = !subTodo.showDetails;
+  }
+  toggleAddSubTodo(todo: Todo) {
+    todo.showAddSubTodo = !todo.showAddSubTodo;
+  }
   deleteTodo(id: number) {
     this.todoService.deleteTodo(id).subscribe(
       () => {
@@ -88,15 +112,26 @@ export class ToDoListComponent implements OnInit{
     );
   }
   deleteSubTodo(todo: Todo, subTodo: SubTodoModel) {
-    if (todo.subTodos) { // Ensure subTodos is not undefined
+    if (todo.subTodos) {
       const index = todo.subTodos.indexOf(subTodo);
       if (index !== -1) {
         todo.subTodos.splice(index, 1);
+        this.todoService.deleteSubTodo(todo.id, subTodo.id).subscribe(
+          () => {
+            // Subtodo deleted successfully from the backend
+          },
+          (error) => {
+            console.error('Error deleting subtodo:', error);
+            // Handle error if needed
+          }
+        );
       }
     }
   }
-  markSubTodoAsCompleted(subTodoModel: SubTodoModel) {
-    this.todoService.markSubTodoAsCompleted(subTodoModel.id).subscribe(() => {
+
+
+  markSubTodoAsCompleted(parentId: number, subTodoId: number) {
+    this.todoService.markSubTodoAsCompleted(parentId, subTodoId).subscribe(() => {
       // If necessary, update the todoList after marking sub TODO as completed
       this.fetchTodoList();
     });

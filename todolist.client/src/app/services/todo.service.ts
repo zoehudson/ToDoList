@@ -31,17 +31,27 @@ export class TodoService {
   updateSubTodo(subTodo: SubTodoModel): Observable<void> {
     return this.http.put<void>(`https://localhost:7078/api/subtodos/${subTodo.id}`, subTodo);
   }
+  updateMoreDetails(todoId: number, moreDetails: string): Observable<void> {
+    return this.http.put<void>(`https://localhost:7078/api/todolist/${todoId}/moredetails`, { moreDetails });
+  }
+
+  updateSubTodoDetails(subTodoId: number, moreDetails: string): Observable<void> {
+    return this.http.put<void>(`https://localhost:7078/api/subtodos/${subTodoId}/moredetails`, { moreDetails });
+  }
 
   deleteTodo(id: number): Observable<void> {
-    return this.http.delete<void>(`https://localhost:7078/api/todolist${id}`);
+    return this.http.delete<void>(`https://localhost:7078/api/todolist/${id}`);
+  }
+  deleteSubTodo(todoId: number, subTodoId: number): Observable<void> {
+    return this.http.delete<void>(`https://localhost:7078/api/todolist/${todoId}/subtodos/${subTodoId}`);
   }
 
   markAsCompleted(id: number): Observable<void> {
-    return this.http.put<void>(`https://localhost:7078/api/todolist${id}/complete`, null);
+    return this.http.put<void>(`https://localhost:7078/api/todolist/${id}/complete`, null);
   }
 
-  markSubTodoAsCompleted(subTodoId: number): Observable<void> {
-    return this.http.put<void>(`https://localhost:7078/api/subtodos/${subTodoId}/complete`, null);
+  markSubTodoAsCompleted(parentId: number, subTodoId: number): Observable<void> {
+    return this.http.put<void>(`https://localhost:7078/api/todolist/${parentId}/subtodos/${subTodoId}/completesubtodo`, null);
   }
 
 }
