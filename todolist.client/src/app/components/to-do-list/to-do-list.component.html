@@ -8,7 +8,7 @@
           <button (click)="toggleDetails(todo)">Details</button>
           <!-- Display moreDetails when showDetails is true -->
           <div *ngIf="todo.showDetails">
-            <input type="text" [(ngModel)]="todo.moreDetails" placeholder="Enter more details" (blur)="updateMoreDetails(todo)" [disabled]="todo.isCompleted">
+            <input type="text" [(ngModel)]="todo.moreDetails" placeholder="Enter more details" (blur)="updateMoreDetails(todo, todo.moreDetails)" [disabled]="todo.isCompleted">
           </div>
           <button (click)="deleteTodo(todo.id)">Delete</button>
 
@@ -27,11 +27,11 @@
           <li *ngFor="let subTodo of todo.subTodos">
             <!-- Sub Todo Item Content -->
             <input type="checkbox" [(ngModel)]="subTodo.isCompleted" (onChange)="markSubTodoAsCompleted(todo.id, subTodo.id)" [disabled]="todo.isCompleted">
-            <input type="text" [(ngModel)]="subTodo.task" (blur)="updateSubTodo(subTodo)">
+            <input type="text" [(ngModel)]="subTodo.task" (blur)="updateSubTodo(subTodo.parentId, subTodo)">
             <button (click)="toggleSubTodoDetails(subTodo)">Details</button>
             <!-- Display moreDetails when showDetails is true -->
             <div *ngIf="subTodo.showDetails">
-              <input type="text" [(ngModel)]="subTodo.moreDetails" placeholder="Enter more details" (blur)="updateSubTodoDetails(subTodo)" [disabled]="subTodo.isCompleted">
+              <input type="text" [(ngModel)]="subTodo.moreDetails" placeholder="Enter more details" (blur)="updateSubTodoDetails(todo.id, subTodo.id, subTodo.moreDetails)" [disabled]="subTodo.isCompleted">
             </div>
             <button (click)="deleteSubTodo(todo, subTodo)">Delete</button>
           </li>
