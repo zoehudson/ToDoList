@@ -24,7 +24,7 @@ This is a simple ToDo List application built with .NET Core and Angular.
 npm install -g @angular/cli
 npm install
 
-###Frontend
+### Frontend
 npm install primeng
 
 5. Add PrimeNG styles to your project. You can either import them in `angular.json` or `src/styles.css`:
