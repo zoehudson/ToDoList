@@ -23,9 +23,11 @@ This is a simple ToDo List application built with .NET Core and Angular.
    run the following installs
 npm install -g @angular/cli
 npm install
+
+###Frontend
 npm install primeng
 
-4. Add PrimeNG styles to your project. You can either import them in `angular.json` or `src/styles.css`:
+5. Add PrimeNG styles to your project. You can either import them in `angular.json` or `src/styles.css`:
 
 With angular.json:
 "styles": [
@@ -42,7 +44,7 @@ With styles.css:
 ng serve
 
 
-The frontend will be served at `http://localhost:4200`.
+The frontend will be served at `https://localhost:4200`.
 
 ## Usage
 
