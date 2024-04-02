@@ -1,0 +1,28 @@
+.todo-item {
+  display: flex;
+  align-items: flex-start;
+
+}
+
+  .todo-item input[type="checkbox"] {
+    margin-right: 10px; /* Adjust as needed */
+  }
+.sub-todo-list {
+  list-style: none;
+  margin-left: 20px; /* Adjust indentation as needed */
+}
+
+.sub-todo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sub-todo-item {
+  margin-top: 5px; /* Adjust spacing between sub TODOs */
+}
+.todo-container {
+  display: flex;
+  flex-direction: column;
+}
+
