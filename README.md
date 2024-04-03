@@ -5,51 +5,27 @@ This is a simple ToDo List application built with .NET Core and Angular.
 ## Requirements
 
 - .NET Core 8
+- install hosting bundle for windows and the SDK
 - Visual Studio 2022
-- Node.js 18.13
-- Angular 18
 - ASP.NET and Web Development workload
-- Node.js (for Angular development)
-- PrimeNG (set up documentation here:https://primeng.org/installation )
-
-## Installation
+- Node.js minimum version 18.13
 
 ### Backend (.NET Core)
 
 1. Clone this repository to your local machine.
-2. Navigate to the `backend` directory.
-3. Run the following command to restore the .NET Core dependencies:
-   dotnet restore
-   run the following installs
-npm install -g @angular/cli
-npm install
-
-### Frontend
-npm install primeng
-
-5. Add PrimeNG styles to your project. You can either import them in `angular.json` or `src/styles.css`:
-
-With angular.json:
-"styles": [
-"node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-"node_modules/primeng/resources/primeng.min.css",
-...
-]
-
-
-With styles.css:
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
-
-ng serve
-
+2. Navigate to the todolist.client directory.
+3. run npm install
+4. npm run start
+   OR
+4. In Visual Studio 2022 click start or select https and click start (should run both frontend and backend)
 
 The frontend will be served at `https://localhost:4200`.
 
 ## Usage
 
-Once both the backend and frontend servers are running, you can access the ToDo List application by visiting `http://localhost:4200` in your web browser.
-
+Once both the backend and frontend servers are running, you can access the ToDo List application by visiting `https://localhost:4200` in your web browser.
+note: 
+- PrimeNG is used (set up documentation here:https://primeng.org/installation if youre interested)
 ## Features
 
 - Add, delete, and update todos.
