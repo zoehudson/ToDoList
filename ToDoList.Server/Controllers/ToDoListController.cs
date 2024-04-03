@@ -84,8 +84,9 @@ namespace ToDoList.Server.Controllers
             todo.SubTodos.Remove(subTodo);
             return NoContent();
         }
+
         [HttpPut("{id}")]
-        public IActionResult UpdateTodo(int id, [FromBody] ToDoItemModel updatedTodo)
+        public IActionResult UpdateTodo(int id, [FromBody]ToDoItemModel updatedTodo)
         {
             var todo = _todoList.FirstOrDefault(x => x.Id == id);
             if (todo == null)
@@ -97,6 +98,7 @@ namespace ToDoList.Server.Controllers
             todo.MoreDetails = updatedTodo.MoreDetails;
             return NoContent();
         }
+
 
         [HttpPut("{parentId}/subtodos/{subTodoId}")]
         public IActionResult UpdateSubTodo(int parentId, int subTodoId, [FromBody] SubToDoModel updatedSubTodo)
@@ -120,19 +122,20 @@ namespace ToDoList.Server.Controllers
         }
 
         [HttpPut("{id}/updateMoreDetails")]
-        public IActionResult UpdateTodoMoreDetails(int id, [FromBody] string moreDetails)
+        public IActionResult UpdateTodoMoreDetails(int id, [FromBody] MoreDetailsUpdateRequest moreDetailsUpdateRequest)
         {
             var todo = _todoList.FirstOrDefault(x => x.Id == id);
             if (todo == null)
             {
                 return NotFound();
             }
-            todo.MoreDetails = moreDetails;
+            todo.MoreDetails = moreDetailsUpdateRequest.MoreDetails;
             return NoContent();
         }
 
+
         [HttpPut("{todoId}/subtodos/{subTodoId}/updateSubTodoDetails")]
-        public IActionResult UpdateSubTodoDetails(int todoId, int subTodoId, [FromBody] string moreDetails)
+        public IActionResult UpdateSubTodoDetails([FromBody] MoreDetailsUpdateRequest moreDetails, int todoId, int subTodoId)
         {
             var todo = _todoList.FirstOrDefault(t => t.Id == todoId);
             if (todo == null)
@@ -140,13 +143,15 @@ namespace ToDoList.Server.Controllers
                 return NotFound("Parent TODO not found");
             }
 
+
             var subTodo = todo.SubTodos.FirstOrDefault(st => st.Id == subTodoId);
             if (subTodo == null)
             {
                 return NotFound("Sub TODO not found");
             }
 
-            subTodo.MoreDetails = moreDetails;
+
+            subTodo.MoreDetails = moreDetails.MoreDetails;
             return NoContent();
         }
 

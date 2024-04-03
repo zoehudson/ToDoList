@@ -26,8 +26,8 @@
         <ul *ngIf="todo.subTodos && todo.subTodos.length">
           <li *ngFor="let subTodo of todo.subTodos">
             <!-- Sub Todo Item Content -->
-            <input type="checkbox" [(ngModel)]="subTodo.isCompleted" (onChange)="markSubTodoAsCompleted(todo.id, subTodo.id)" [disabled]="todo.isCompleted">
-            <input type="text" [(ngModel)]="subTodo.task" (blur)="updateSubTodo(subTodo.parentId, subTodo)">
+            <input type="checkbox" [(ngModel)]="subTodo.isCompleted" (change)="markSubTodoAsCompleted(todo.id, subTodo.id)" [disabled]="todo.isCompleted">
+            <input type="text" [(ngModel)]="subTodo.task" (blur)="updateSubTodo(subTodo.parentId, subTodo.id, subTodo)">
             <button (click)="toggleSubTodoDetails(subTodo)">Details</button>
             <!-- Display moreDetails when showDetails is true -->
             <div *ngIf="subTodo.showDetails">

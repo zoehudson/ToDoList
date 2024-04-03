@@ -28,8 +28,8 @@ export class TodoService {
     return this.http.put<void>(`https://localhost:7078/api/todolist/${todo.id}`, todo);
   }
 
-  updateSubTodo(parentId: number, subTodo: SubTodoModel): Observable<void> {
-    return this.http.put<void>(`https://localhost:7078/api/subtodos/${parentId}/subtodos/{subTodoId}`, subTodo);
+  updateSubTodo(parentId: number, subTodoId: number, subTodo: SubTodoModel): Observable<void> {
+    return this.http.put<void>(`https://localhost:7078/api/todolist/${parentId}/subtodos/${subTodoId}`, subTodo);
   }
 
   updateMoreDetails(todoId: number, moreDetails: string): Observable<void> {
@@ -37,7 +37,7 @@ export class TodoService {
   }
 
   updateSubTodoDetails(todoId: number, subTodoId: number, moreDetails: string): Observable<void> {
-    return this.http.put<void>(`https://localhost:7078/api/subtodos/${todoId}/subtodos/${subTodoId}/updateSubTodoDetails`, { moreDetails });
+    return this.http.put<void>(`https://localhost:7078/api/todolist/${todoId}/subtodos/${subTodoId}/updateSubTodoDetails`, { moreDetails });
   }
 
   deleteTodo(id: number): Observable<void> {

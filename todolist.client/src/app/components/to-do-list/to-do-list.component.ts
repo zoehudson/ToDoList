@@ -34,30 +34,27 @@ export class ToDoListComponent implements OnInit{
   addTodo() {
     this.todoService.addTodo(this.newTodo).subscribe((newTodo) => {
       this.fetchTodoList();
-      this.newTodo.task = ''; // Reset task input
+      this.newTodo.task = ''; 
       this.newTodo.moreDetails = '';
       this.newTodo.deadline = new Date();
     });
   }
 
   addSubTodo(todo: Todo) {
-    // Create a new SubTodoCreationModel instance with appropriate values
     const newSubTodo: SubTodoCreationModel = {
       task: this.subTodo.task,
       deadline: this.subTodo.deadline,
       moreDetails: this.subTodo.moreDetails
     };
 
-    // Call the service method to add the new subtodo
     this.todoService.addSubTodo(todo.id, newSubTodo).subscribe((subTodo) => {
-      // If successful, update the todo list and reset input fields
       this.fetchTodoList();
-      this.subTodo = new SubTodoModel(); // Reset subTodo object or input fields
+      this.subTodo = new SubTodoModel();
     });
   }
 
   newSubTodo(todo: Todo) {
-    this.newTodo.task = ''; // Reset task input
+    this.newTodo.task = ''; 
     this.newTodo.moreDetails = '';
     todo.subTodos.push(this.subTodo);
   }
@@ -67,21 +64,18 @@ export class ToDoListComponent implements OnInit{
 
   updateTodo(todo: Todo) {
     this.todoService.updateTodo(todo).subscribe(() => {
-      // Optional: You can refresh the todo list if needed
       this.fetchTodoList();
     });
   }
 
-  updateSubTodo(parentId: number, subTodo: SubTodoModel) {
-    this.todoService.updateSubTodo(parentId, subTodo).subscribe(() => {
-      // Optional: You can refresh the todo list if needed
+  updateSubTodo(parentId: number, subTodoId: number, subTodo: SubTodoModel) {
+    this.todoService.updateSubTodo(parentId, subTodoId, subTodo).subscribe(() => {
       this.fetchTodoList();
     });
   }
 
   updateMoreDetails(todo: Todo, moreDetails: string) {
     this.todoService.updateMoreDetails(todo.id, moreDetails).subscribe(() => {
-      // Optional: You can perform additional actions after updating the details, such as refreshing the todo list
       this.fetchTodoList();
     });
   }
@@ -89,11 +83,9 @@ export class ToDoListComponent implements OnInit{
 
   updateSubTodoDetails(todoId: number, subTodoId: number, moreDetails: string) {
     this.todoService.updateSubTodoDetails(todoId, subTodoId, moreDetails).subscribe(() => {
-      // Optional: You can perform additional actions after updating the subtodo details, such as refreshing the todo list
       this.fetchTodoList();
     });
   }
-
 
   toggleDetails(todo: Todo) {
     todo.showDetails = !todo.showDetails;
@@ -102,9 +94,11 @@ export class ToDoListComponent implements OnInit{
   toggleSubTodoDetails(subTodo: SubTodoModel) {
     subTodo.showDetails = !subTodo.showDetails;
   }
+
   toggleAddSubTodo(todo: Todo) {
     todo.showAddSubTodo = !todo.showAddSubTodo;
   }
+
   deleteTodo(id: number) {
     this.todoService.deleteTodo(id).subscribe(
       () => {
@@ -115,6 +109,7 @@ export class ToDoListComponent implements OnInit{
       }
     );
   }
+
   deleteSubTodo(todo: Todo, subTodo: SubTodoModel) {
     if (todo.subTodos) {
       const index = todo.subTodos.indexOf(subTodo);
@@ -122,21 +117,17 @@ export class ToDoListComponent implements OnInit{
         todo.subTodos.splice(index, 1);
         this.todoService.deleteSubTodo(todo.id, subTodo.id).subscribe(
           () => {
-            // Subtodo deleted successfully from the backend
           },
           (error) => {
             console.error('Error deleting subtodo:', error);
-            // Handle error if needed
           }
         );
       }
     }
   }
 
-
   markSubTodoAsCompleted(parentId: number, subTodoId: number) {
     this.todoService.markSubTodoAsCompleted(parentId, subTodoId).subscribe(() => {
-      // If necessary, update the todoList after marking sub TODO as completed
       this.fetchTodoList();
     });
   }
